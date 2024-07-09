@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CSS to create a dark blue background */
+body {
+  background-color: #000318; /* Dark blue color */
+  color: #fff; /* White text color for contrast */
+}
