@@ -1,9 +1,5 @@
 /node_modules
 
-.next
-/.next*
-.next
-
 /dist
 
 .env
