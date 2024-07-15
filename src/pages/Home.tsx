@@ -1,10 +1,13 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
+import FAQPage from "../components/common/FAQPage";
+import Footer from "../components/common/Footer";
+import SignupSection from "../components/core/SignupSection";
 
 const Home = () => {
   return (
     <React.Fragment>
-      {/* Search for latest courses */}
+      {/* Hero section with background image */}
       <div
         style={{
           background:
@@ -29,7 +32,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* background random image */}
+      {/* Main content section with title, description, and buttons */}
       <div className="px-7 lg:px-10 max-w-6xl mx-auto flex flex-col gap-y-10 lg:flex-row items-center gap-x-10 justify-center py-10 lg:py-14 dark:bg-gray-800">
         <div className="lg:w-[650px] lg:px-5 flex flex-col gap-y-5">
           <h1 className="text-4xl md:text-5xl xl:text-[50px] leading-[1.2] md:max-w-xl md:mx-auto md:text-center lg:text-left lg:mx-0 lg:max-w-full font-semibold dark:text-white">
@@ -56,6 +59,22 @@ const Home = () => {
           />
         </div>
       </div>
+
+      {/* Signup section */}
+      <div className="bg-gray-200 mx-7 mt-4 rounded-3xl mb-4 relative">
+        <SignupSection />
+      </div>
+
+      {/* FAQ section */}
+      <div className="bg-gray-200 mx-7 mt-4 rounded-3xl mb-4 relative">
+        <FAQPage />
+      </div>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Placeholder for future content */}
+      {/* <div className="bg-slate-800 p-8"></div> */}
     </React.Fragment>
   );
 };
