@@ -1,5 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
+// Interface for the Mongoose Document (instance)
+interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  accountType: "Admin" | "Instructor" | "Student";
+  active: boolean;
+  approved: boolean;
+  additionalDetails: mongoose.Types.ObjectId; // Reference to Profile document
+  courses: mongoose.Types.ObjectId[]; // Array of references to Course documents
+  image: string;
+  token?: string; // Optional token
+  resetPasswordTokenExpires?: Date; // Optional date for reset password token expiration
+  courseProgress: mongoose.Types.ObjectId[]; // Array of references to CourseProgress documents
+  createdAt: Date; // Automatically managed by Mongoose timestamps
+  updatedAt: Date; // Automatically managed by Mongoose timestamps
+}
+// Define the Mongoose Schema
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -24,7 +43,7 @@ const userSchema = new mongoose.Schema(
     accountType: {
       type: String,
       enum: ["Admin", "Instructor", "Student"],
-      reuired: true,
+      required: true,
     },
     active: {
       type: Boolean,
@@ -61,8 +80,9 @@ const userSchema = new mongoose.Schema(
         ref: "CourseProgress",
       },
     ],
-  }, // Add timestamps for when the document is created and last modified
+  },
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+// Define and export the User model
+export const User = mongoose.model<IUser>("User", userSchema);

@@ -1,30 +1,51 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const courseSchema = new mongoose.Schema({
+// Define interface for Course document (optional but recommended)
+interface ICourse extends Document {
+  courseName: string;
+  courseDescription?: string;
+  instructor: mongoose.Types.ObjectId; // Reference to User document (assuming IUser interface exists)
+  whatYouWillLearn?: string;
+  courseContent: mongoose.Types.ObjectId[]; // Array of Section references (assuming ISection interface exists)
+  ratingAndReviews: mongoose.Types.ObjectId[]; // Array of RatingAndReview references (assuming IRatingAndReview interface exists)
+  price?: number;
+  thumbnail?: string;
+  category?: mongoose.Types.ObjectId; // Reference to Category document (assuming ICategory interface exists)
+  tag: string[];
+  studentsEnrolled: mongoose.Types.ObjectId[]; // Array of User references (assuming IUser interface exists)
+  instructions?: string[];
+  status?: "Draft" | "Published"; // Status enum
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Define mongoose schema
+const courseSchema: Schema = new Schema({
   courseName: {
     type: String,
+    required: true, // Course name is required
   },
   courseDescription: {
     type: String,
   },
   instructor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    type: Schema.Types.ObjectId,
+    ref: "User", // Reference to User model
+    required: true, // Instructor is required
   },
   whatYouWillLearn: {
     type: String,
   },
   courseContent: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Section",
+      type: Schema.Types.ObjectId,
+      ref: "Section", // Array of references to Section model
     },
   ],
   ratingAndReviews: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "RatingAndReview",
+      type: Schema.Types.ObjectId,
+      ref: "RatingAndReview", // Array of references to RatingAndReview model
     },
   ],
   price: {
@@ -34,18 +55,18 @@ const courseSchema = new mongoose.Schema({
     type: String,
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
+    type: Schema.Types.ObjectId,
+    ref: "Category", // Reference to Category model
   },
   tag: {
     type: [String],
-    required: true,
+    required: true, // At least one tag is required
   },
   studentsEnrolled: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: "User", // Array of references to User model
+      required: true, // At least one student must be enrolled
     },
   ],
   instructions: {
@@ -53,14 +74,17 @@ const courseSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Draft", "Published"],
+    enum: ["Draft", "Published"], // Status can only be Draft or Published
   },
   createdAt: {
     type: Date,
+    default: Date.now, // Default value is current timestamp
   },
   updatedAt: {
     type: Date,
+    default: Date.now, // Default value is current timestamp
   },
 });
 
-export const Course = mongoose.model("Course", courseSchema);
+// Define and export mongoose model
+export const Course = mongoose.model<ICourse>("Course", courseSchema);
