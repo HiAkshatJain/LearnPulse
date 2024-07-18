@@ -24,7 +24,7 @@ const SignupSection = () => {
 
         {/* Sign-up button */}
         <Button className="mb-8" color="primary" variant="ghost">
-          Sign-up for free
+          <a href="/signup">Sign-up for free</a>
         </Button>
       </div>
     </div>
