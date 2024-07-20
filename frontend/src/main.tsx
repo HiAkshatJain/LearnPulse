@@ -5,13 +5,23 @@ import App from "./App.tsx";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 
+import { Provider } from "react-redux";
+import rootReducer from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <NextUIProvider>
-      <BrowserRouter>
-        <App />
-        <Toaster />
-      </BrowserRouter>
-    </NextUIProvider>
+    <Provider store={store}>
+      <NextUIProvider>
+        <BrowserRouter>
+          <App />
+          <Toaster />
+        </BrowserRouter>
+      </NextUIProvider>
+    </Provider>
   </React.StrictMode>
 );

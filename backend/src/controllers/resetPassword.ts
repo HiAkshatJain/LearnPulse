@@ -3,7 +3,7 @@ import { User } from "../models/user.js"; // Importing User model from "../model
 import crypto from "crypto"; // Importing crypto module for generating secure tokens and hashes
 import bcrypt from "bcrypt"; // Importing bcrypt for hashing passwords securely
 import { mailSender } from "../utils/mailSender.js"; // Importing mailSender function from "../utils/mailSender.js" for sending emails
-import { ResetPasswordTypes } from "../types/resetPassword/resetPasswordTypes.js"; // Importing ResetPasswordTypes type from "../types/resetPassword/resetPasswordTypes.js" for defining the structure of request body in reset password functionality
+import { ResetPasswordTypes } from "../types/resetPassword/ResetPasswordTypes.js"; // Importing ResetPasswordTypes type from "../types/resetPassword/resetPasswordTypes.js" for defining the structure of request body in reset password functionality
 
 // Generate a reset password token and send a reset password email
 export const resetPasswordToken = async (req: Request, res: Response) => {

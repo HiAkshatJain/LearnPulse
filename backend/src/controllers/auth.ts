@@ -32,7 +32,7 @@ export const sendOTP = async (req: Request, res: Response) => {
     // Extract name from email for OTP template
     const name = email
       .split("@")[0]
-      .split(".")
+      .split(".") //@ts-ignore
       .map((part) => part.replace(/\d+/g, ""))
       .join(" ");
 

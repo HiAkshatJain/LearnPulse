@@ -1,14 +1,16 @@
 import { ChangeEvent, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Tab, Tabs } from "@nextui-org/react";
 import { SignupFormData } from "../types/auth/SignupFormData";
 import toast from "react-hot-toast";
+import { setSignupData } from "../slices/authSlice";
+import { sendOtp } from "../services/operations/authAPI";
 
 const SignUp = () => {
   // Inside your functional component
-  // const navigate = useNavigate(); // Assuming useNavigate is from React Router or similar
-  // const dispatch = useDispatch(); // Assuming useDispatch is from Redux or similar
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Corrected syntax for useState with type annotation
   const [formData, setFormData] = useState<SignupFormData>({
@@ -27,8 +29,6 @@ const SignUp = () => {
       ...prevData,
       [e.target.name]: e.target.value,
     }));
-
-    console.log("signup form data - ", formData);
   };
 
   const handleOnSubmit = (e: ChangeEvent<HTMLFormElement>) => {
@@ -38,22 +38,22 @@ const SignUp = () => {
       toast.error("Passwords Do Not Match");
       return;
     }
-    // const signupData = {
-    //   ...formData,
-    //   accountType,
-    // };
-    // dispatch(setSignupData(signupData));
-
-    // dispatch(sendOtp(formData.email, navigate));
+    const signupData = {
+      ...formData,
+      // accountType,
+    };
+    dispatch(setSignupData(signupData));
+    //@ts-ignore
+    dispatch(sendOtp(formData.email, navigate));
 
     // Reset form data
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    // setFormData({
+    //   firstName: "",
+    //   lastName: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    // });
     // setAccountType(ACCOUNT_TYPE.STUDENT);
   };
 

@@ -4,14 +4,14 @@ import axios, { AxiosRequestConfig } from "axios";
 export const axiosInstance = axios.create({});
 
 // Define types for the parameters used in apiConnector function
-type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface ApiConnectorParams {
   method: HttpMethod;
   url: string;
   bodyData?: any;
-  headers?: Record<string, any>;
-  params?: Record<string, any>;
+  headers?: any;
+  params?: any;
 }
 
 // Define a function that uses AxiosRequestConfig for type safety
