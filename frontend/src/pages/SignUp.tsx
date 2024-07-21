@@ -40,21 +40,19 @@ const SignUp = () => {
     }
     const signupData = {
       ...formData,
-      // accountType,
+      accountType: "student",
     };
     dispatch(setSignupData(signupData));
     //@ts-ignore
     dispatch(sendOtp(formData.email, navigate));
 
-    // Reset form data
-    // setFormData({
-    //   firstName: "",
-    //   lastName: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    // });
-    // setAccountType(ACCOUNT_TYPE.STUDENT);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   return (

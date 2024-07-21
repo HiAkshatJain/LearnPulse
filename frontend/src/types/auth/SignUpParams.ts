@@ -1,11 +1,10 @@
-export interface NewUserSignupBody {
+export interface SignUpParams {
+  accountType: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
-  accountType?: string;
-  approved?: string | boolean;
-  contactNumber?: string;
   otp: string;
+  navigate: any;
 }

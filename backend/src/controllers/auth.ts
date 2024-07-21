@@ -71,7 +71,6 @@ export const signup = async (
       password,
       confirmPassword,
       accountType,
-      contactNumber,
       otp,
     } = req.body;
 
@@ -134,13 +133,12 @@ export const signup = async (
       about: null,
       contactNumber: null,
     });
-
     // Create the user in the database
+
     const user = await User.create({
       firstName,
       lastName,
       email,
-      contactNumber,
       password: hashedPassword,
       accountType: accountType,
       approved: approved,
@@ -151,14 +149,13 @@ export const signup = async (
     // Respond with success message and user details
     return res.status(200).json({
       success: true,
-      user,
       message: "User registered successfully",
     });
   } catch (error) {
     // Handle any errors
     return res.status(500).json({
       success: false,
-      message: "User cannot be registered. Please try again.",
+      message: "User cannot be registered. Please try again...",
     });
   }
 };
@@ -167,6 +164,7 @@ export const signup = async (
 export const login = async (req: Request<{}, {}, Logintyps>, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password);
 
     // Validate email and password
     if (!email || !password) {

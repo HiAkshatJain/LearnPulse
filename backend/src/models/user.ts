@@ -10,13 +10,13 @@ interface IUser extends Document {
   active: boolean;
   approved: boolean;
   additionalDetails: mongoose.Types.ObjectId; // Reference to Profile document
-  courses: mongoose.Types.ObjectId[]; // Array of references to Course documents
+  courses?: mongoose.Types.ObjectId[]; // Array of references to Course documents
   image: string;
   token?: string; // Optional token
   resetPasswordTokenExpires?: Date; // Optional date for reset password token expiration
-  courseProgress: mongoose.Types.ObjectId[]; // Array of references to CourseProgress documents
-  createdAt: Date; // Automatically managed by Mongoose timestamps
-  updatedAt: Date; // Automatically managed by Mongoose timestamps
+  courseProgress?: mongoose.Types.ObjectId[]; // Array of references to CourseProgress documents
+  createdAt?: Date; // Automatically managed by Mongoose timestamps
+  updatedAt?: Date; // Automatically managed by Mongoose timestamps
 }
 // Define the Mongoose Schema
 const userSchema = new mongoose.Schema(
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema(
     },
     accountType: {
       type: String,
-      enum: ["Admin", "Instructor", "Student"],
+      enum: ["admin", "instructor", "student"],
       required: true,
     },
     active: {

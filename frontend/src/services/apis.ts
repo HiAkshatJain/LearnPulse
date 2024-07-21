@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:4000/api/v1";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL + "/api/v1";
 
 // AUTH ENDPOINTS
 export const endpoints = {
