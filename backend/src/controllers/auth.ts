@@ -164,7 +164,6 @@ export const signup = async (
 export const login = async (req: Request<{}, {}, Logintyps>, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
 
     // Validate email and password
     if (!email || !password) {

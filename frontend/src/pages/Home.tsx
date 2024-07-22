@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@nextui-org/react";
-import FAQPage from "../components/common/FAQPage";
+import FAQPage from "../components/common/FAQ";
 import Footer from "../components/common/Footer";
 import SignupSection from "../components/core/SignupSection";
 

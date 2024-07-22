@@ -92,7 +92,6 @@ export function login(email: string, password: string, navigate: any) {
   return async (dispatch: Dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
-    console.log(email, password);
     try {
       const response = await apiConnector({
         method: "POST",
@@ -115,7 +114,6 @@ export function login(email: string, password: string, navigate: any) {
 
       dispatch(setUser({ ...response.data.user, image: userImage }));
 
-      console.log("User data - ", response.data.user);
       localStorage.setItem("token", JSON.stringify(response.data?.token));
 
       localStorage.setItem(
@@ -129,5 +127,17 @@ export function login(email: string, password: string, navigate: any) {
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);
+  };
+}
+
+export function logout(navigate: any) {
+  return (dispatch: Dispatch) => {
+    dispatch(setToken(null));
+    dispatch(setUser(null));
+    // dispatch(resetCart());
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    toast.success("Logged Out");
+    navigate("/");
   };
 }

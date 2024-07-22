@@ -47,9 +47,9 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
 
           {/* Search input */}
           <div className="flex justify-center items-center">
-            <div className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 flex bg-white md:justify-center justify-between items-center px-4 py-3 w-full">
+            <div className="focus:outline-none rounded-xl focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 flex bg-white md:justify-center justify-between items-center px-4 py-3 w-full">
               <input
-                className="focus:outline-none bg-white"
+                className="focus:outline-none px-2 bg-white"
                 type="text"
                 placeholder="Search"
               />

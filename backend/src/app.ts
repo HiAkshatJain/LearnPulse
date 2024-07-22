@@ -56,7 +56,10 @@ app.use(
 app.use("/api/v1/auth", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("API Working with /api/v1");
+  res.send(`<div>
+    This is Default Route  
+    <p>Everything is OK</p>
+    </div>`);
 });
 
 app.listen(port, () => {
