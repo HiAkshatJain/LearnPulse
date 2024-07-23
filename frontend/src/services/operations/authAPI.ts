@@ -5,7 +5,13 @@ import { setLoading, setToken } from "../../slices/authSlice";
 import { apiConnector } from "../apiConnector";
 import { endpoints } from "../apis";
 
-const { SENDOTP_API, SIGNUP_API, LOGIN_API } = endpoints;
+const {
+  SENDOTP_API,
+  SIGNUP_API,
+  LOGIN_API,
+  RESETPASSTOKEN_API,
+  RESETPASSWORD_API,
+} = endpoints;
 
 import { Dispatch } from "redux";
 import { SignUpParams } from "../../types/auth/SignUpParams";
@@ -127,6 +133,64 @@ export function login(email: string, password: string, navigate: any) {
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);
+  };
+}
+
+export function getPasswordResetToken(email: string) {
+  return async (dispatch: Dispatch) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const response = await apiConnector({
+        method: "POST",
+        url: RESETPASSTOKEN_API,
+        bodyData: {
+          email,
+        },
+      });
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      toast.success("Reset Email Sent");
+    } catch (error) {
+      toast.error("Failed To Send Reset Email");
+    }
+    toast.dismiss(toastId);
+    dispatch(setLoading(false));
+  };
+}
+
+export function resetPassword(
+  password: string,
+  confirmPassword: string,
+  token: string,
+  navigate: any
+) {
+  return async (dispatch: Dispatch) => {
+    const toastId = toast.loading("Loading...");
+    dispatch(setLoading(true));
+    token = token[2];
+    try {
+      const response = await apiConnector({
+        method: "POST",
+        url: RESETPASSWORD_API,
+        bodyData: {
+          password,
+          confirmPassword,
+          token,
+        },
+      });
+
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+
+      toast.success("Password Reset Successfully");
+      navigate("/login");
+    } catch (error) {
+      toast.error("Failed To Reset Password");
+    }
+    toast.dismiss(toastId);
+    dispatch(setLoading(false));
   };
 }
 
