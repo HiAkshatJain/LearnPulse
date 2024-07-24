@@ -9,6 +9,7 @@ import { connectDB } from "./config/database.js";
 import { cloudinaryConnect } from "./config/cloudinary.js";
 
 import userRoutes from "./routes/user.js";
+import profileRoutes from "./routes/profile.js";
 
 config({
   path: "./.env",
@@ -54,6 +55,7 @@ app.use(
 );
 
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/profile", profileRoutes);
 
 app.get("/", (req, res) => {
   res.send(`<div>

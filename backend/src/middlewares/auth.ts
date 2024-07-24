@@ -42,3 +42,29 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
     });
   }
 };
+
+export const isInstructor = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.user?.accountType != "Instructor") {
+      return res.status(401).json({
+        success: false,
+        messgae: "This Page is protected only for Instructor",
+      });
+    }
+    // go to next middleware
+    next();
+  } catch (error) {
+    console.log(
+      "Error while cheching user validity with Instructor accountType"
+    );
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      messgae: "Error while cheching user validity with Instructor accountType",
+    });
+  }
+};
