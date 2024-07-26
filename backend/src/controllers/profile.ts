@@ -1,9 +1,7 @@
 //@ts-nocheck
 import { Profile } from "../models/profile.js";
 import { User } from "../models/user.js";
-import { CourseProgress } from "../models/courseProgress.js";
 import { Course } from "../models/course.js";
-
 import {
   uploadImageToCloudinary,
   deleteResourceFromCloudinary,
@@ -17,6 +15,7 @@ export const updateProfile = async (
   res: Response
 ) => {
   try {
+    // Extract profile data from request body
     const {
       gender = "",
       dateOfBirth = "",
@@ -25,31 +24,39 @@ export const updateProfile = async (
       firstName,
       lastName,
     } = req.body;
+
+    // Retrieve user ID from request object
     const userId = req.user?.id;
 
+    // Find the user and their profile details
     const userDetails = await User.findById(userId);
-    const profileId = userDetails?.additionalDetails;
+    const profileId = userDetails?.additionalDetails; // Get associated profile ID
     const profileDetails = await Profile.findById(profileId);
 
+    // Update user details
     userDetails!.firstName = firstName;
     userDetails!.lastName = lastName;
-    await userDetails?.save();
+    await userDetails?.save(); // Save updated user details
 
+    // Update profile details
     profileDetails!.gender = gender;
     profileDetails!.dateOfBirth = dateOfBirth;
     profileDetails!.about = about;
     profileDetails!.contactNumber = contactNumber;
+    await profileDetails?.save(); // Save updated profile details
 
-    await profileDetails?.save();
+    // Retrieve and return updated user details with populated profile
     const updatedUserDetails = await User.findById(userId).populate({
       path: "additionalDetails",
     });
+
     res.status(200).json({
       success: true,
       updatedUserDetails,
       message: "Profile updated successfully",
     });
   } catch (error) {
+    // Handle errors
     res.status(500).json({
       success: false,
       message: "Error while updating profile",
@@ -59,31 +66,39 @@ export const updateProfile = async (
 
 export const deleteAccount = async (req: Request, res: Response) => {
   try {
+    // Retrieve user ID from request object
     const userId = req.user?.id;
-    const userDetails = User.findById(userId);
+
+    // Find user details
+    const userDetails = await User.findById(userId);
     if (!userDetails) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
+
+    // Delete user's profile image from Cloudinary
     await deleteResourceFromCloudinary(userDetails.image);
 
+    // Remove user from all enrolled courses
     const userEnrolledCoursesId = userDetails?.courses;
-
     for (const courseId of userEnrolledCoursesId) {
       await Course.findByIdAndUpdate(courseId, {
         $pull: { studentsEnrolled: userId },
       });
     }
 
+    // Delete user's profile and account
     await Profile.findByIdAndDelete(userDetails.additionalDetails);
     await User.findByIdAndDelete(userId);
+
     res.status(200).json({
       success: true,
       message: "Account deleted successfully",
     });
   } catch (error) {
+    // Handle errors
     res.status(500).json({
       success: false,
       message: "Error while deleting profile",
@@ -93,16 +108,21 @@ export const deleteAccount = async (req: Request, res: Response) => {
 
 export const getUserDetails = async (req: Request, res: Response) => {
   try {
+    // Retrieve user ID from request object
     const userId = req.user?.id;
+
+    // Find user details with populated profile information
     const userDetails = await User.findById(userId)
       .populate("additionalDetails")
       .exec();
+
     res.status(200).json({
       success: true,
       data: userDetails,
       message: "User data fetched successfully",
     });
   } catch (error) {
+    // Handle errors
     res.status(500).json({
       success: false,
       message: "Error while fetching user details",
@@ -112,29 +132,36 @@ export const getUserDetails = async (req: Request, res: Response) => {
 
 export const updateUserProfileImage = async (req: Request, res: Response) => {
   try {
+    // Extract profile image from the request files
     const profileImage = req.files?.profileImage;
+    // Retrieve the user ID from the request object
     const userId = req.user?.id;
+
+    // Upload the image to Cloudinary with specified dimensions
     const image = await uploadImageToCloudinary(
       profileImage,
       process.env.FOLDER_NAME,
-      1000,
-      1000
+      1000, // width
+      1000 // height
     );
 
+    // Update the user's image URL in the database
     const updatedUserDetails = await User.findByIdAndUpdate(
       userId,
       { image: image?.secure_url },
-      { new: true }
+      { new: true } // Return the updated document
     ).populate({
-      path: "additionalDetails",
+      path: "additionalDetails", // Populate additional profile details
     });
 
+    // Send a success response with updated user details
     res.status(200).json({
       success: true,
-      message: `Image Updated successfully`,
+      message: "Image updated successfully",
       data: updatedUserDetails,
     });
   } catch (error) {
+    // Handle any errors
     return res.status(500).json({
       success: false,
       message: "Error while updating user profile image",
@@ -144,71 +171,73 @@ export const updateUserProfileImage = async (req: Request, res: Response) => {
 
 export const getEnrolledCourses = async (req: Request, res: Response) => {
   try {
+    // Retrieve the user ID from the request object
     const userId = req.user.id;
+
+    // Find the user and populate their enrolled courses with course content and subsections
     let userDetails = await User.findOne({ _id: userId })
       .populate({
         path: "courses",
         populate: {
           path: "courseContent",
           populate: {
-            path: "subSection",
+            path: "subSection", // Populate subsections of course content
           },
         },
       })
       .exec();
 
+    // Convert userDetails to plain JavaScript object for manipulation
     userDetails = userDetails.toObject();
 
-    var SubsectionLength = 0;
-    for (var i = 0; i < userDetails.courses.length; i++) {
+    // Loop through each course to calculate total duration and progress
+    for (const course of userDetails.courses) {
       let totalDurationInSeconds = 0;
-      SubsectionLength = 0;
-      for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
-        totalDurationInSeconds += userDetails.courses[i].courseContent[
-          j
-        ].subSection.reduce(
+      let subsectionLength = 0;
+
+      // Calculate total duration and count subsections
+      for (const content of course.courseContent) {
+        totalDurationInSeconds += content.subSection.reduce(
           (acc, curr) => acc + parseInt(curr.timeDuration),
           0
         );
-
-        userDetails.courses[i].totalDuration = convertSecondsToDuration(
-          totalDurationInSeconds
-        );
-        SubsectionLength +=
-          userDetails.courses[i].courseContent[j].subSection.length;
+        subsectionLength += content.subSection.length;
       }
 
+      // Convert total duration to a human-readable format
+      course.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+
+      // Find the user's progress in the course
       let courseProgressCount = await CourseProgress.findOne({
-        courseID: userDetails.courses[i]._id,
+        courseID: course._id,
         userId: userId,
       });
 
-      courseProgressCount = courseProgressCount?.completedVideos.length;
+      courseProgressCount = courseProgressCount?.completedVideos.length || 0;
 
-      if (SubsectionLength === 0) {
-        userDetails.courses[i].progressPercentage = 100;
-      } else {
-        // To make it up to 2 decimal point
-        const multiplier = Math.pow(10, 2);
-        userDetails.courses[i].progressPercentage =
-          Math.round(
-            (courseProgressCount / SubsectionLength) * 100 * multiplier
-          ) / multiplier;
-      }
+      // Calculate progress percentage
+      course.progressPercentage =
+        subsectionLength === 0
+          ? 100
+          : Math.round((courseProgressCount / subsectionLength) * 100 * 100) /
+            100;
     }
 
+    // Handle case where no user details are found
     if (!userDetails) {
       return res.status(400).json({
         success: false,
-        message: `Could not find user with id: ${userDetails}`,
+        message: `Could not find user with id: ${userId}`,
       });
     }
 
+    // Return the user's enrolled courses with calculated details
     return res.status(200).json({
       success: true,
       data: userDetails.courses,
     });
   } catch (error) {
+    // Handle any errors
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -218,8 +247,10 @@ export const getEnrolledCourses = async (req: Request, res: Response) => {
 
 export const instructorDashboard = async (req: Request, res: Response) => {
   try {
+    // Find all courses created by the instructor
     const courseDetails = await Course.find({ instructor: req.user.id });
 
+    // Map each course to include additional statistics
     const courseData = courseDetails.map((course) => {
       const totalStudentsEnrolled = course.studentsEnrolled.length;
       const totalAmountGenerated = totalStudentsEnrolled * course.price;
@@ -229,7 +260,6 @@ export const instructorDashboard = async (req: Request, res: Response) => {
         _id: course._id,
         courseName: course.courseName,
         courseDescription: course.courseDescription,
-        // Include other course properties as needed
         totalStudentsEnrolled,
         totalAmountGenerated,
       };
@@ -237,11 +267,13 @@ export const instructorDashboard = async (req: Request, res: Response) => {
       return courseDataWithStats;
     });
 
+    // Return the dashboard data with course statistics
     res.status(200).json({
       courses: courseData,
       message: "Instructor Dashboard Data fetched successfully",
     });
   } catch (error) {
+    // Handle any errors
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -249,23 +281,27 @@ export const instructorDashboard = async (req: Request, res: Response) => {
 
 export const getAllStudents = async (req: Request, res: Response) => {
   try {
+    // Fetch all users with accountType "Student" and populate related fields
     const allStudentsDetails = await User.find({
       accountType: "Student",
     })
-      .populate("additionalDetails")
-      .populate("courses")
-      .sort({ createdAt: -1 });
+      .populate("additionalDetails") // Populate additional profile details
+      .populate("courses") // Populate enrolled courses
+      .sort({ createdAt: -1 }); // Sort by creation date in descending order
 
+    // Count the total number of students
     const studentsCount = await User.countDocuments({
       accountType: "Student",
     });
 
+    // Send the response with students details and count
     res.status(200).json({
       allStudentsDetails,
       studentsCount,
       message: "All Students Data fetched successfully",
     });
   } catch (error) {
+    // Log and handle any errors that occur
     console.error(error);
     res.status(500).json({
       message: "Error while fetching all students",
@@ -276,23 +312,27 @@ export const getAllStudents = async (req: Request, res: Response) => {
 
 export const getAllInstructors = async (req: Request, res: Response) => {
   try {
+    // Fetch all users with accountType "Instructor" and populate related fields
     const allInstructorsDetails = await User.find({
       accountType: "Instructor",
     })
-      .populate("additionalDetails")
-      .populate("courses")
-      .sort({ createdAt: -1 });
+      .populate("additionalDetails") // Populate additional profile details
+      .populate("courses") // Populate courses taught by the instructor
+      .sort({ createdAt: -1 }); // Sort by creation date in descending order
 
+    // Count the total number of instructors
     const instructorsCount = await User.countDocuments({
       accountType: "Instructor",
     });
 
+    // Send the response with instructors details and count
     res.status(200).json({
       allInstructorsDetails,
       instructorsCount,
       message: "All Instructors Data fetched successfully",
     });
   } catch (error) {
+    // Log and handle any errors that occur
     console.error(error);
     res.status(500).json({
       message: "Error while fetching all Instructors",
