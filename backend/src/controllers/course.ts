@@ -12,7 +12,7 @@ import { Section } from "../models/section.js";
 import { SubSection } from "../models/subSection.js";
 
 // Handler to create a new course
-export const createCategory = async (req: Request, res: Response) => {
+export const createCourse = async (req: Request, res: Response) => {
   try {
     // Extract data from request body
     let {

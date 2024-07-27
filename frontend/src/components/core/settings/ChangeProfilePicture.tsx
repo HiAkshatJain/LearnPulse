@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Button, Card, CardHeader, Image } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { FiUpload } from "react-icons/fi";
@@ -83,7 +82,7 @@ const ChangeProfilePicture = () => {
               <Button onClick={handleClick} disabled={loading} color="default">
                 Select
               </Button>
-              <Button color="warning">
+              <Button color="warning" onClick={handleFileUpload}>
                 {loading ? "Uploading..." : "Upload"} <FiUpload />{" "}
               </Button>
             </div>

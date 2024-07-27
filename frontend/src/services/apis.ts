@@ -8,3 +8,10 @@ export const endpoints = {
   RESETPASSTOKEN_API: SERVER_URL + "/auth/reset-password-token",
   RESETPASSWORD_API: SERVER_URL + "/auth/reset-password",
 };
+
+export const settingsEndpoints = {
+  UPDATE_DISPLAY_PICTURE_API: SERVER_URL + "/profile/updateUserProfileImage",
+  UPDATE_PROFILE_API: SERVER_URL + "/profile/updateProfile",
+  CHANGE_PASSWORD_API: SERVER_URL + "/auth/changepassword",
+  DELETE_PROFILE_API: SERVER_URL + "/profile/deleteProfile",
+};

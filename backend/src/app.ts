@@ -1,62 +1,69 @@
-import express from "express";
+import express from "express"; // Importing express to create an Express application
 
-import { config } from "dotenv";
-import cookieParser from "cookie-parser";
-import fileUpload from "express-fileupload";
+import { config } from "dotenv"; // Importing dotenv to load environment variables from a .env file
+import cookieParser from "cookie-parser"; // Importing cookie-parser to parse cookies in incoming requests
+import fileUpload from "express-fileupload"; // Importing express-fileupload to handle file uploads
 
-import cors from "cors";
-import { connectDB } from "./config/database.js";
-import { cloudinaryConnect } from "./config/cloudinary.js";
+import cors from "cors"; // Importing cors to enable Cross-Origin Resource Sharing (CORS)
+import { connectDB } from "./config/database.js"; // Importing the function to connect to the MongoDB database
+import { cloudinaryConnect } from "./config/cloudinary.js"; // Importing the function to connect to Cloudinary
 
-import userRoutes from "./routes/user.js";
-import profileRoutes from "./routes/profile.js";
+// Importing route handlers for different parts of the application
+import userRoutes from "./routes/user.js"; // Routes for user authentication and management
+import courseRoutes from "./routes/course.js"; // Routes for course-related operations
+import profileRoutes from "./routes/profile.js"; // Routes for user profile operations
 
+// Load environment variables from the .env file
 config({
-  path: "./.env",
+  path: "./.env", // Path to the .env file that contains environment variables
 });
 
-const port = process.env.PORT!;
-const url = process.env.DATABASE_URL!;
-const cloud_name = process.env.CLOUD_NAME!;
-const key = process.env.API_KEY!;
-const secret = process.env.API_SECRET!;
+// Retrieve environment variables
+const port = process.env.PORT!; // The port on which the server will run
+const url = process.env.DATABASE_URL!; // The URL for connecting to the MongoDB database
+const cloud_name = process.env.CLOUD_NAME!; // The Cloudinary cloud name
+const key = process.env.API_KEY!; // The Cloudinary API key
+const secret = process.env.API_SECRET!; // The Cloudinary API secret
 
+// Create an Express application
 const app = express();
 
+// Connect to the MongoDB database using the provided URL
 connectDB(url);
+
+// Connect to Cloudinary using the specified credentials
 cloudinaryConnect(cloud_name, key, secret);
 
+// Middleware to parse incoming JSON requests
 app.use(express.json());
+
+// Middleware to parse cookies from incoming requests
 app.use(cookieParser());
 
-//Cors for development
+// Middleware to handle CORS (Cross-Origin Resource Sharing)
+// This configuration allows requests from any origin and supports credentials (useful for development)
 app.use(
   cors({
-    // origin: 'http://localhost:5173', // frontend link
-    origin: "*",
-    credentials: true,
+    // origin: 'http://localhost:5173', // Uncomment and specify frontend link for production use
+    origin: "*", // Allow requests from any origin
+    credentials: true, // Allow credentials (e.g., cookies) to be included in requests
   })
 );
 
-//Corse from Production
-// app.use(
-//   cors({
-//     origin: [process.env.CLIENT_URL!],
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   })
-// );
-
+// Middleware to handle file uploads
 app.use(
   fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
+    useTempFiles: true, // Use temporary files for uploads
+    tempFileDir: "/tmp", // Directory to store temporary files
   })
 );
 
-app.use("/api/v1/auth", userRoutes);
-app.use("/api/v1/profile", profileRoutes);
+// Define API routes for different functionalities
+app.use("/api/v1/auth", userRoutes); // Routes for user authentication (e.g., login, registration)
+app.use("/api/v1/profile", profileRoutes); // Routes for managing user profiles (e.g., view and update profile)
+app.use("/api/v1/course", courseRoutes); // Routes for managing courses (e.g., create, update, delete courses)
 
+// Default route to test server functionality
 app.get("/", (req, res) => {
   res.send(`<div>
     This is Default Route  
@@ -64,6 +71,7 @@ app.get("/", (req, res) => {
     </div>`);
 });
 
+// Start the server and listen on the specified port
 app.listen(port, () => {
-  console.log(`Express is working on http://localhost:${port}`);
+  console.log(`Express is working on http://localhost:${port}`); // Log message indicating that the server is running
 });
