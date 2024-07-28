@@ -19,11 +19,11 @@ const Home = () => {
       >
         <h1 className="pb-4">Search for Courses</h1>
         <div className="w-11/12 md:w-3/4 lg:max-w-3xl m-auto">
-          <div className="relative z-30 text-base text-black">
+          <div className="relative text-base text-black">
             <input
               type="text"
               placeholder="Courses"
-              className="mt-2 shadow-md focus:outline-none rounded-2xl py-3 px-6 block w-full"
+              className="mt-2 shadow-md focus:outline-none rounded-2xl py-3 px-6 w-full"
             />
             <div className="text-left absolute top-10 rounded-t-none rounded-b-2xl shadow bg-white divide-y w-full max-h-40 overflow-auto">
               {/* Your autocomplete or suggestion results can go here */}

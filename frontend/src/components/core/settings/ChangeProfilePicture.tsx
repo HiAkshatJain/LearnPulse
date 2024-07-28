@@ -1,7 +1,9 @@
+//@ts-nocheck
 import { Button, Card, CardHeader, Image } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { FiUpload } from "react-icons/fi";
 import React, { useEffect, useRef, useState } from "react";
+import { updateUserProfileImage } from "../../../services/operations/settingsAPI";
 
 const ChangeProfilePicture = () => {
   const dispatch = useDispatch();

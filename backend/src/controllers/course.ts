@@ -57,6 +57,7 @@ export const createCourse = async (req: Request, res: Response) => {
     }
 
     // Get instructor ID from the request user
+    //@ts-ignore
     const instructorId = req.user?.id;
 
     // Check if the provided category ID is valid
@@ -243,7 +244,7 @@ export const getCourseDetails = async (req: Request, res: Response) => {
 export const getFullCourseDetails = async (req: Request, res: Response) => {
   try {
     // Extract course ID from request body and user ID from request user
-    const { courseId } = req.body;
+    const { courseId } = req.body; //@ts-ignore
     const userId = req.user?.id;
 
     // Fetch course details from the database, populating related fields
@@ -403,6 +404,7 @@ export const editCourse = async (req: Request, res: Response) => {
 export const getInstructorCourses = async (req: Request, res: Response) => {
   try {
     // Get instructor ID from the request user
+    //@ts-ignore
     const instructorId = req.user?.id;
 
     // Find courses by the instructor ID and sort them by creation date (most recent first)

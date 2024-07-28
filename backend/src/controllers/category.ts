@@ -119,6 +119,8 @@ export const getCategoryPageDetails = async (req: Request, res: Response) => {
         .json({ success: false, message: "Category not found" });
     }
 
+    console.log(selectedCategory);
+
     // Respond with a 404 status code if no courses are found for the selected category
     if (selectedCategory.courses.length === 0) {
       return res.status(404).json({

@@ -106,7 +106,7 @@ const LoginPage: React.FC = () => {
             href="/signup"
             className="font-semibold leading-6 text-blue-500 hover:text-blue-400"
           >
-            Start a 14 day free trial
+            {"  "}Don't have an account
           </a>
         </p>
       </div>

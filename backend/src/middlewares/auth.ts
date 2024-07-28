@@ -48,7 +48,8 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
 export const isStudent = (req: Request, res: Response, next: NextFunction) => {
   try {
     // Check if the user's account type is 'student'
-    if (req.user?.accountType != "student") {
+    //@ts-ignore
+    if (req.user?.role != "student") {
       return res.status(401).json({
         success: false,
         message: "This Page is protected only for student", // Corrected typo from "messgae" to "message"
@@ -72,7 +73,8 @@ export const isInstructor = (
 ) => {
   try {
     // Check if the user's account type is 'instructor'
-    if (req.user?.accountType != "instructor") {
+    //@ts-ignore
+    if (req.user?.role != "instructor") {
       return res.status(401).json({
         success: false,
         message: "This Page is protected only for Instructor", // Corrected typo from "messgae" to "message"
@@ -96,7 +98,8 @@ export const isInstructor = (
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   try {
     // Check if the user's account type is 'admin'
-    if (req.user?.accountType != "admin") {
+    //@ts-ignore
+    if (req.user?.role != "admin") {
       return res.status(401).json({
         success: false,
         message: "This Page is protected only for Admin", // Corrected typo from "messgae" to "message"

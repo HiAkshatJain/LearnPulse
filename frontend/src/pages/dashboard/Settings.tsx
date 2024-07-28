@@ -1,4 +1,7 @@
 import ChangeProfilePicture from "../../components/core/settings/ChangeProfilePicture";
+import DeleteAccount from "../../components/core/settings/DeleteAccount";
+import EditProfile from "../../components/core/settings/EditProfile";
+import UpdatePassword from "../../components/core/settings/UpdatePassword";
 
 const Settings = () => {
   return (
@@ -8,6 +11,9 @@ const Settings = () => {
       </h1>
 
       <ChangeProfilePicture />
+      <EditProfile />
+      <UpdatePassword />
+      <DeleteAccount />
     </div>
   );
 };

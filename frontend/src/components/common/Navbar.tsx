@@ -3,11 +3,34 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProfileDropDown from "../core/auth/ProfileDropDown";
+import { useEffect, useState } from "react";
+import { fetchCourseCategories } from "../../services/operations/courseDetailsAPI";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Navbar = () => {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   // const { totalItems } = useSelector((state) => state.cart)
+
+  const [subLinks, setSubLinks] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchSublinks = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchCourseCategories();
+      console.log("Fetched Data:", res); // This logs the response data
+      setSubLinks(res); // Update state with the fetched data
+    } catch (error) {
+      console.log("Could not fetch the category list = ", error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchSublinks();
+  }, []);
+
   return (
     <nav className="pl-4 pr-4 inset-x-0 top-0 z-30 w-full border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6">
       <div className="px-4">
@@ -20,15 +43,49 @@ const Navbar = () => {
             >
               Home
             </a>
+
+            <div className="group flex rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900">
+              Category
+              <div className="flex justify-center items-center">
+                <MdKeyboardArrowDown />
+              </div>
+              <div
+                className="invisible bg-slate-200 rounded-3xl absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] 
+                                                    flex-col bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible 
+                                                    group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]"
+              >
+                {loading ? (
+                  <p className="text-center ">Loading...</p>
+                ) : subLinks.length ? (
+                  <>
+                    {subLinks?.map((subLink, i) => (
+                      <Link
+                        to={`/catalog/${subLink.name
+                          .split(" ")
+                          .join("-")
+                          .toLowerCase()}`}
+                        className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                        key={i}
+                      >
+                        <p>{subLink.name}</p>
+                      </Link>
+                    ))}
+                  </>
+                ) : (
+                  <p className="text-center">No Courses Found</p>
+                )}
+              </div>
+            </div>
+
             <a
               className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-              href="about"
+              href="/about"
             >
               About Us
             </a>
             <a
               className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-              href="contact"
+              href="/contact"
             >
               Contact Us
             </a>
