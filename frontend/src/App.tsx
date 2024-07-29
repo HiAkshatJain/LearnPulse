@@ -13,6 +13,7 @@ import Settings from "./pages/dashboard/Settings";
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
 
 function App() {
   // @ts-ignore
@@ -31,6 +32,7 @@ function App() {
         <Route path="/dashboard/Settings" element={<Settings />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="update-password/:id" element={<UpdatePassword />} />
+        <Route path="dashboard/cart" element={<Cart />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
