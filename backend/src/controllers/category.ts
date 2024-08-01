@@ -46,6 +46,8 @@ export const deleteCategory = async (req: Request, res: Response) => {
     // Extract categoryId from the request body
     const { categoryId } = req.body;
 
+    console.log(categoryId);
+
     // Validate that categoryId is provided
     if (!categoryId) {
       // Respond with a 400 status code and an error message if validation fails

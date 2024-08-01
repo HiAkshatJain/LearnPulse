@@ -23,6 +23,58 @@ const {
   DELETE_CATEGORY,
 } = courseEndpoints;
 
+export const createNewCategory = async function (
+  name: string,
+  description: string,
+  token: string
+) {
+  const toastId = toast.loading("Loading...");
+  try {
+    const response = await apiConnector({
+      method: "POST",
+      url: CREATE_NEW_CATEGORY,
+      bodyData: { name, description },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response?.data?.success) {
+      console.log("Could Not create new category");
+    }
+
+    toast.success("New Category Created !");
+  } catch (error) {
+    toast.error("Category not created");
+  }
+  toast.dismiss(toastId);
+};
+
+export const deleteCategory = async (categoryId: string, token: string) => {
+  const toastId = toast.loading("Loading...");
+
+  try {
+    const response = await apiConnector({
+      method: "DELETE",
+      url: DELETE_CATEGORY,
+      bodyData: { categoryId },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response?.data?.success) {
+      console.log("Could Not delete category");
+    }
+
+    toast.success("Category Deleted !");
+  } catch (error) {
+    toast.error("Error in deleting course");
+  }
+  toast.dismiss(toastId);
+};
+
 export const fetchCourseCategories = async () => {
   let result = [];
 

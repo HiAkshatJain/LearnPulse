@@ -19,7 +19,6 @@ const Navbar = () => {
     try {
       setLoading(true);
       const res = await fetchCourseCategories();
-      console.log("Fetched Data:", res); // This logs the response data
       setSubLinks(res); // Update state with the fetched data
     } catch (error) {
       console.log("Could not fetch the category list = ", error);

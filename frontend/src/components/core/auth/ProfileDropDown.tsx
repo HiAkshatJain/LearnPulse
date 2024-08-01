@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
-import { VscDashboard, VscSignOut } from "react-icons/vsc";
+import { VscDashboard, VscNewFile, VscSignOut } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from "../../../services/operations/authAPI";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
 
 export default function ProfileDropdown() {
   //@ts-ignore
@@ -13,6 +14,8 @@ export default function ProfileDropdown() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+
+  useOnClickOutside(ref, () => setOpen(false));
 
   if (!user) return null;
 
@@ -42,13 +45,27 @@ export default function ProfileDropdown() {
             </div>
           </Link>
 
+          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+            {user && user?.accountType === "admin" && (
+              <Link
+                to="/dashboard/create-category"
+                onClick={() => setOpen(false)}
+              >
+                <div className="flex gap-1">
+                  <VscNewFile className="text-lg" />
+                  Category
+                </div>
+              </Link>
+            )}
+          </div>
+
           <div
             onClick={() => {
               //@ts-ignore
               dispatch(logout(navigate));
               setOpen(false);
             }}
-            className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
+            className="flex w-full items-center gap-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
           >
             <VscSignOut className="text-lg" />
             Logout

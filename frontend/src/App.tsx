@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
+import CreateCategory from "./pages/dashboard/CreateCategory";
 
 function App() {
   // @ts-ignore
@@ -32,6 +33,7 @@ function App() {
         <Route path="/dashboard/Settings" element={<Settings />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="update-password/:id" element={<UpdatePassword />} />
+        <Route path="dashboard/create-category" element={<CreateCategory />} />
         <Route path="dashboard/cart" element={<Cart />} />
 
         <Route path="*" element={<PageNotFound />} />
