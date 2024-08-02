@@ -3,7 +3,7 @@ import express from "express"; // Importing the Express library
 const app = express.Router(); // Creating a new Express Router instance for defining routes
 
 // Importing middleware functions for authentication and role-checking
-import { auth, isInstructor } from "../middlewares/auth.js";
+import { auth, isAdmin, isInstructor } from "../middlewares/auth.js";
 
 // Importing controller functions to handle the logic for different routes
 import {
@@ -13,6 +13,8 @@ import {
   getEnrolledCourses, // Controller function to get courses a user is enrolled in
   deleteAccount, // Controller function to handle account deletion
   instructorDashboard, // Controller function to handle instructor dashboard details
+  getAllStudents, // Controller to get all students
+  getAllInstructors, // Controller to get all Instructors
 } from "../controllers/profile.js";
 
 // Route to delete a user's profile
@@ -39,6 +41,10 @@ app.put("/updateUserProfileImage", auth, updateUserProfileImage);
 // Uses the 'auth' middleware to ensure the user is authenticated
 // Uses the 'isInstructor' middleware to ensure the user has the 'instructor' role
 app.get("/instructorDashboard", auth, isInstructor, instructorDashboard);
+
+// Routes for admin to access all the student and instructor
+app.get("/allStudents", auth, isAdmin, getAllStudents);
+app.get("/allInstructors", auth, isAdmin, getAllInstructors);
 
 // Exporting the router to be used in other parts of the application
 export default app;

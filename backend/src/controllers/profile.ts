@@ -283,7 +283,7 @@ export const getAllStudents = async (req: Request, res: Response) => {
   try {
     // Fetch all users with accountType "Student" and populate related fields
     const allStudentsDetails = await User.find({
-      accountType: "Student",
+      accountType: "student",
     })
       .populate("additionalDetails") // Populate additional profile details
       .populate("courses") // Populate enrolled courses
@@ -291,7 +291,7 @@ export const getAllStudents = async (req: Request, res: Response) => {
 
     // Count the total number of students
     const studentsCount = await User.countDocuments({
-      accountType: "Student",
+      accountType: "student",
     });
 
     // Send the response with students details and count
@@ -302,7 +302,6 @@ export const getAllStudents = async (req: Request, res: Response) => {
     });
   } catch (error) {
     // Log and handle any errors that occur
-    console.error(error);
     res.status(500).json({
       message: "Error while fetching all students",
       error: error.message,
@@ -314,7 +313,7 @@ export const getAllInstructors = async (req: Request, res: Response) => {
   try {
     // Fetch all users with accountType "Instructor" and populate related fields
     const allInstructorsDetails = await User.find({
-      accountType: "Instructor",
+      accountType: "instructor",
     })
       .populate("additionalDetails") // Populate additional profile details
       .populate("courses") // Populate courses taught by the instructor
@@ -322,7 +321,7 @@ export const getAllInstructors = async (req: Request, res: Response) => {
 
     // Count the total number of instructors
     const instructorsCount = await User.countDocuments({
-      accountType: "Instructor",
+      accountType: "instructor",
     });
 
     // Send the response with instructors details and count
@@ -333,7 +332,6 @@ export const getAllInstructors = async (req: Request, res: Response) => {
     });
   } catch (error) {
     // Log and handle any errors that occur
-    console.error(error);
     res.status(500).json({
       message: "Error while fetching all Instructors",
       error: error.message,

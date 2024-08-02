@@ -15,6 +15,8 @@ import UpdatePassword from "./pages/UpdatePassword";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import CreateCategory from "./pages/dashboard/CreateCategory";
+import AllStudents from "./pages/dashboard/AllStudents";
+import AllInstructors from "./pages/dashboard/AllInstructors";
 
 function App() {
   // @ts-ignore
@@ -35,6 +37,9 @@ function App() {
         <Route path="update-password/:id" element={<UpdatePassword />} />
         <Route path="dashboard/create-category" element={<CreateCategory />} />
         <Route path="dashboard/cart" element={<Cart />} />
+
+        <Route path="dashboard/all-students" element={<AllStudents />} />
+        <Route path="dashboard/all-instructors" element={<AllInstructors />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

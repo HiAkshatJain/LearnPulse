@@ -1,6 +1,11 @@
 import { useRef, useState } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
-import { VscDashboard, VscNewFile, VscSignOut } from "react-icons/vsc";
+import {
+  VscArrowRight,
+  VscDashboard,
+  VscNewFile,
+  VscSignOut,
+} from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -54,6 +59,31 @@ export default function ProfileDropdown() {
                 <div className="flex gap-1">
                   <VscNewFile className="text-lg" />
                   Category
+                </div>
+              </Link>
+            )}
+          </div>
+
+          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+            {user && user?.accountType === "admin" && (
+              <Link to="dashboard/all-students" onClick={() => setOpen(false)}>
+                <div className="flex gap-1">
+                  <VscArrowRight className="text-lg" />
+                  Students
+                </div>
+              </Link>
+            )}
+          </div>
+
+          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+            {user && user?.accountType === "admin" && (
+              <Link
+                to="/dashboard/all-instructors"
+                onClick={() => setOpen(false)}
+              >
+                <div className="flex gap-1">
+                  <VscArrowRight className="text-lg" />
+                  Instructors
                 </div>
               </Link>
             )}
