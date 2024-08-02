@@ -5,12 +5,15 @@ import {
   VscDashboard,
   VscNewFile,
   VscSignOut,
+  VscSymbolConstant,
 } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { logout } from "../../../services/operations/authAPI";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { CiCirclePlus } from "react-icons/ci";
+import { CgProfile } from "react-icons/cg";
 
 export default function ProfileDropdown() {
   //@ts-ignore
@@ -45,13 +48,46 @@ export default function ProfileDropdown() {
         >
           <Link to="/dashboard/my-profile" onClick={() => setOpen(false)}>
             <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
-              <VscDashboard className="text-lg" />
-              Dashboard
+              <CgProfile className="text-lg" />
+              Profile
             </div>
           </Link>
 
-          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
-            {user && user?.accountType === "admin" && (
+          {user && user?.accountType === "instructor" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+              <Link to="dashboard/instructor" onClick={() => setOpen(false)}>
+                <div className="flex gap-1">
+                  <VscDashboard className="text-lg" />
+                  Dashboard
+                </div>
+              </Link>
+            </div>
+          )}
+
+          {user && user?.accountType === "instructor" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+              <Link to="dashboard/my-course" onClick={() => setOpen(false)}>
+                <div className="flex gap-1">
+                  <VscSymbolConstant className="text-lg" />
+                  MyCourse
+                </div>
+              </Link>
+            </div>
+          )}
+
+          {user && user?.accountType === "instructor" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+              <Link to="dashboard/add-course" onClick={() => setOpen(false)}>
+                <div className="flex gap-1">
+                  <CiCirclePlus className="text-lg" />
+                  AddCourse
+                </div>
+              </Link>
+            </div>
+          )}
+
+          {user && user?.accountType === "admin" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
               <Link
                 to="/dashboard/create-category"
                 onClick={() => setOpen(false)}
@@ -61,22 +97,20 @@ export default function ProfileDropdown() {
                   Category
                 </div>
               </Link>
-            )}
-          </div>
-
-          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
-            {user && user?.accountType === "admin" && (
+            </div>
+          )}
+          {user && user?.accountType === "admin" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
               <Link to="dashboard/all-students" onClick={() => setOpen(false)}>
                 <div className="flex gap-1">
                   <VscArrowRight className="text-lg" />
                   Students
                 </div>
               </Link>
-            )}
-          </div>
-
-          <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
-            {user && user?.accountType === "admin" && (
+            </div>
+          )}
+          {user && user?.accountType === "admin" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
               <Link
                 to="/dashboard/all-instructors"
                 onClick={() => setOpen(false)}
@@ -86,8 +120,8 @@ export default function ProfileDropdown() {
                   Instructors
                 </div>
               </Link>
-            )}
-          </div>
+            </div>
+          )}
 
           <div
             onClick={() => {
