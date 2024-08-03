@@ -12,6 +12,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [accType, setaccType] = useState("instructor");
   // Corrected syntax for useState with type annotation
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: "",
@@ -38,10 +39,12 @@ const SignUp = () => {
       toast.error("Passwords Do Not Match");
       return;
     }
+
     const signupData = {
       ...formData,
-      accountType: "student",
+      accountType: accType,
     };
+
     dispatch(setSignupData(signupData));
     //@ts-ignore
     dispatch(sendOtp(formData.email, navigate));
@@ -73,8 +76,20 @@ const SignUp = () => {
           aria-label="Tabs colors"
           radius="full"
         >
-          <Tab key="student" title="Student" />
-          <Tab key="instructor" title="Instructor" />
+          <Tab
+            key="student"
+            onClick={() => {
+              setaccType("student");
+            }}
+            title="Student"
+          />
+          <Tab
+            key="instructor"
+            onClick={() => {
+              setaccType("instructor");
+            }}
+            title="Instructor"
+          />
         </Tabs>
         <form className="space-y-6" onSubmit={handleOnSubmit} method="POST">
           <div>

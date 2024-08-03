@@ -21,7 +21,9 @@ interface InstructorData {
 }
 
 export default function Instructor() {
+  //@ts-ignore
   const { token } = useSelector((state) => state.auth);
+  //@ts-ignore
   const { user } = useSelector((state) => state.profile);
 
   const [loading, setLoading] = useState<boolean>(false);

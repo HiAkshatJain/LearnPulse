@@ -20,6 +20,7 @@ import AllInstructors from "./pages/dashboard/AllInstructors";
 import AddCourse from "./pages/instructor/AddCourse";
 import MyCourses from "./pages/instructor/MyCourses";
 import Instructor from "./pages/instructor/Instructor";
+import EnrolledCourses from "./pages/student/EnrolledCourses";
 
 function App() {
   // @ts-ignore
@@ -47,6 +48,12 @@ function App() {
         <Route path="dashboard/instructor" element={<Instructor />} />
         <Route path="dashboard/add-course" element={<AddCourse />} />
         <Route path="dashboard/my-course" element={<MyCourses />} />
+
+        <Route path="dashboard/cart" element={<Cart />} />
+        <Route
+          path="dashboard/enrolled-courses"
+          element={<EnrolledCourses />}
+        />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -53,6 +53,20 @@ export default function ProfileDropdown() {
             </div>
           </Link>
 
+          {user && user?.accountType === "student" && (
+            <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+              <Link
+                to="dashboard/enrolled-courses"
+                onClick={() => setOpen(false)}
+              >
+                <div className="flex gap-1">
+                  <VscDashboard className="text-lg" />
+                  EnrolledCourses
+                </div>
+              </Link>
+            </div>
+          )}
+
           {user && user?.accountType === "instructor" && (
             <div className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
               <Link to="dashboard/instructor" onClick={() => setOpen(false)}>
