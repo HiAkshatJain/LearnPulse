@@ -5,7 +5,7 @@ import CourseBuilderForm from "./core/CourseBuilderForm";
 import PublishCourse from "./core/PublishCourse";
 import { useSelector } from "react-redux";
 
-const RenderSteps: React.FC = () => {
+const RenderSteps = () => {
   //@ts-ignore
   const { step } = useSelector((state) => state.course);
   //@ts-ignore
