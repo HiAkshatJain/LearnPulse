@@ -18,6 +18,8 @@ import CreateCategory from "./pages/dashboard/CreateCategory";
 import AllStudents from "./pages/dashboard/AllStudents";
 import AllInstructors from "./pages/dashboard/AllInstructors";
 import AddCourse from "./pages/instructor/AddCourse";
+import MyCourses from "./pages/instructor/MyCourses";
+import Instructor from "./pages/instructor/Instructor";
 
 function App() {
   // @ts-ignore
@@ -42,13 +44,9 @@ function App() {
         <Route path="dashboard/all-students" element={<AllStudents />} />
         <Route path="dashboard/all-instructors" element={<AllInstructors />} />
 
-        {/* <Route path="dashboard/instructor" element={<Instructor />} /> */}
+        <Route path="dashboard/instructor" element={<Instructor />} />
         <Route path="dashboard/add-course" element={<AddCourse />} />
-        {/* <Route path="dashboard/my-courses" element={<MyCourses />} />
-        <Route
-          path="dashboard/edit-course/:courseId"
-          element={<EditCourse />}
-        /> */}
+        <Route path="dashboard/my-course" element={<MyCourses />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
