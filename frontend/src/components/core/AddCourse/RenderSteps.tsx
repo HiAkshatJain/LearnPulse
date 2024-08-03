@@ -26,9 +26,9 @@ const RenderSteps = () => {
                 className={`grid aspect-square w-[34px] place-items-center rounded-full border-[1px]
                 ${
                   step === item.id
-                    ? "border-yellow-50 bg-yellow-900 text-yellow-50"
+                    ? "border-green-500 bg-green-950 text-green-400"
                     : step > item.id
-                    ? "border-yellow-50 bg-yellow-50 text-yellow-50"
+                    ? "border-greem-50 bg-green-500 text-green-400"
                     : "border-richblack-700 bg-richblack-800 text-richblack-300"
                 }
                 `}

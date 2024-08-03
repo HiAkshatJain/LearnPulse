@@ -218,6 +218,7 @@ export const createSubSection = async function (data: any, token: string) {
 
 export const updateSection = async function (data: any, token: string) {
   const toastId = toast.loading("Loading...");
+  console.log(data, token);
   let result: any = null;
   try {
     const response = await apiConnector({

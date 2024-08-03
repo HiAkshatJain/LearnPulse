@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,20 @@ import {
 import { COURSE_STATUS } from "../../../../types/constants";
 import { setCourse, setStep } from "../../../../slices/courseSlice";
 import toast from "react-hot-toast";
+import {
+  Button,
+  Card,
+  CardBody,
+  Divider,
+  Input,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
+import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import ChipInput from "./ChipInput";
+import Upload from "./Upload";
+import RequirementsField from "./RequirementsField";
 
 const CourseInformationForm = () => {
   const {
@@ -28,9 +43,8 @@ const CourseInformationForm = () => {
   useEffect(() => {
     const getCategories = async () => {
       setLoading(true);
-      const categories = await fetchCourseCategories();
+      const categories: any = await fetchCourseCategories();
       if (categories.length > 0) {
-        // console.log("categories", categories)
         setCourseCategories(categories);
       }
       setLoading(false);
@@ -71,8 +85,6 @@ const CourseInformationForm = () => {
   };
 
   const onSubmit = async (data: any) => {
-    // console.log(data)
-
     if (editCourse) {
       // const currentValues = getValues()
       // console.log("changes after editing form values:", currentValues)
@@ -150,10 +162,170 @@ const CourseInformationForm = () => {
   };
 
   return (
-    <div>
-      cercf
-      <h1>deecerceccececcerc</h1>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="p-5">
+      {/* Course Title */}
+      <Card className="w-full mb-4">
+        <CardBody>
+          <h1>
+            Course Title <sup className="text-pink-200">*</sup>
+          </h1>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <div className="w-full flex flex-row flex-wrap gap-4">
+            <Input
+              id="courseTitle"
+              placeholder="Enter Course Title"
+              {...register("courseTitle", { required: true })}
+              className="w-full"
+            />
+          </div>
+        </CardBody>
+        <Divider />
+      </Card>
+
+      {/* Course Short Description  */}
+      <Card className="w-full mb-4">
+        <CardBody>
+          <h1>
+            Course Short Description<sup className="text-pink-200">*</sup>
+          </h1>
+        </CardBody>
+        <Divider />
+        <CardBody className="w-full">
+          <Textarea
+            size="lg"
+            id="courseShortDesc"
+            placeholder="Enter Description"
+            {...register("courseShortDesc", { required: true })}
+          />
+        </CardBody>
+        <Divider />
+      </Card>
+
+      {/* course price  */}
+      <Card className="w-full mb-4">
+        <CardBody>
+          <h1>
+            Course Price<sup className="text-pink-200">*</sup>
+          </h1>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <div className="w-full flex flex-row flex-wrap gap-4">
+            <Input
+              id="coursePrice"
+              placeholder="Enter Course Price"
+              {...register("coursePrice", {
+                required: true,
+                valueAsNumber: true, //@ts-ignore
+                pattern: {
+                  value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                },
+              })}
+              className="w-full ml-10"
+            />
+            <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400 ml-2" />
+          </div>
+        </CardBody>
+        <Divider />
+      </Card>
+
+      {/* course category */}
+      <Card className="w-full mb-4">
+        <CardBody>
+          <h1>
+            Course Catagory<sup className="text-pink-200">*</sup>
+          </h1>
+        </CardBody>
+        <Divider />
+        <CardBody>
+          <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+            <Select
+              items={courseCategories}
+              {...register("courseCategory", { required: true })}
+              //@ts-ignore
+              defaultValue=""
+              id="courseCategory"
+            >
+              {(courseCategories) => (
+                //@ts-ignore
+                <SelectItem key={courseCategories._id}>
+                  {courseCategories.name}
+                </SelectItem>
+              )}
+            </Select>
+          </div>
+        </CardBody>
+        <Divider />
+      </Card>
+
+      {/* Tags */}
+      <ChipInput
+        label="Tags"
+        name="courseTags"
+        placeholder="Enter Tags and press Enter or Comma"
+        register={register}
+        errors={errors}
+        setValue={setValue}
+      />
+
+      <Upload
+        name="courseImage"
+        label="Course Thumbnail"
+        register={register}
+        setValue={setValue}
+        errors={errors}
+        editData={editCourse ? course?.thumbnail : null}
+      />
+
+      {/* Course Benifit Description  */}
+      <Card className="w-full mb-4">
+        <CardBody>
+          <h1>
+            Course Benifit Description<sup className="text-pink-200">*</sup>
+          </h1>
+        </CardBody>
+        <Divider />
+        <CardBody className="w-full">
+          <Textarea
+            size="lg"
+            id="courseBenefits"
+            placeholder="Enter benefits of the course"
+            {...register("courseBenefits", { required: true })}
+          />
+        </CardBody>
+        <Divider />
+      </Card>
+
+      <RequirementsField
+        name="courseRequirements"
+        label="Requirements/Instructions"
+        register={register}
+        setValue={setValue}
+        //@ts-ignore
+        errors={errors}
+      />
+      <div className="flex justify-end gap-x-2">
+        {editCourse && (
+          <button
+            onClick={() => dispatch(setStep(2))}
+            disabled={loading}
+            className={`flex cursor-pointer items-center gap-x-2 rounded-md py-[8px] px-[20px] font-semibold
+              text-richblack-900 bg-richblack-300 hover:bg-richblack-900 hover:text-richblack-300 duration-300`}
+          >
+            Continue Wihout Saving
+          </button>
+        )}
+        <Button
+          className="mt-4"
+          color="warning"
+          onClick={handleSubmit(onSubmit)}
+        >
+          {!editCourse ? "Next" : "Save Changes"}
+        </Button>
+      </div>
+    </form>
   );
 };
 

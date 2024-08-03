@@ -14,14 +14,16 @@ const AddCourse = () => {
         </div>
       </div>
 
-      <Card className="max-w-[400px]">
-        <CardHeader className="flex gap-3">
+      <Card className="sticky top-10 hidden lg:block max-w-[400px] flex-1 border-[1px] rounded-3xl border-richblack-700 bg-richblack-800 p-4 ">
+        <CardHeader>
           <div className="flex flex-col">
-            <p className="text-md font-bold">⚡ Course Upload Tips</p>
+            <p className="mb-8 text-lg text-richblack-5">
+              ⚡ Course Upload Tips
+            </p>
           </div>
         </CardHeader>
         <Divider />
-        <CardBody>
+        <CardBody className="ml-5 list-item list-disc space-y-4 text-richblack-5">
           <li>Set the Course Price option or make it free.</li>
           <li>Standard size for the course thumbnail is 1024x576.</li>
           <li>Video section controls the course overview video.</li>
@@ -37,7 +39,6 @@ const AddCourse = () => {
           <li>Make Announcements to notify any important</li>
           <li>Notes to all enrolled students at once.</li>
         </CardBody>
-        <Divider />
       </Card>
     </div>
   );
