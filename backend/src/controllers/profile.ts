@@ -191,38 +191,38 @@ export const getEnrolledCourses = async (req: Request, res: Response) => {
     userDetails = userDetails.toObject();
 
     // Loop through each course to calculate total duration and progress
-    for (const course of userDetails.courses) {
-      let totalDurationInSeconds = 0;
-      let subsectionLength = 0;
+    // for (const course of userDetails.courses) {
+    //   let totalDurationInSeconds = 0;
+    //   let subsectionLength = 0;
 
-      // Calculate total duration and count subsections
-      for (const content of course.courseContent) {
-        totalDurationInSeconds += content.subSection.reduce(
-          (acc, curr) => acc + parseInt(curr.timeDuration),
-          0
-        );
-        subsectionLength += content.subSection.length;
-      }
+    //   // Calculate total duration and count subsections
+    //   for (const content of course.courseContent) {
+    //     totalDurationInSeconds += content.subSection.reduce(
+    //       (acc, curr) => acc + parseInt(curr.timeDuration),
+    //       0
+    //     );
+    //     subsectionLength += content.subSection.length;
+    //   }
 
-      // Convert total duration to a human-readable format
-      course.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+    //   // Convert total duration to a human-readable format
+    //   course.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
-      // Find the user's progress in the course
-      let courseProgressCount = await CourseProgress.findOne({
-        courseID: course._id,
-        userId: userId,
-      });
+    //   // Find the user's progress in the course
+    //   let courseProgressCount = await CourseProgress.findOne({
+    //     courseID: course._id,
+    //     userId: userId,
+    //   });
 
-      courseProgressCount = courseProgressCount?.completedVideos.length || 0;
+    //   courseProgressCount = courseProgressCount?.completedVideos.length || 0;
 
-      // Calculate progress percentage
-      course.progressPercentage =
-        subsectionLength === 0
-          ? 100
-          : Math.round((courseProgressCount / subsectionLength) * 100 * 100) /
-            100;
-    }
-
+    //   // Calculate progress percentage
+    //   course.progressPercentage =
+    //     subsectionLength === 0
+    //       ? 100
+    //       : Math.round((courseProgressCount / subsectionLength) * 100 * 100) /
+    //         100;
+    // }
+    console.log(userDetails.courses);
     // Handle case where no user details are found
     if (!userDetails) {
       return res.status(400).json({
@@ -240,7 +240,7 @@ export const getEnrolledCourses = async (req: Request, res: Response) => {
     // Handle any errors
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Data fetch ni ho pa raha",
     });
   }
 };
