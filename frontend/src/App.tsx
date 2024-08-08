@@ -21,6 +21,7 @@ import AddCourse from "./pages/instructor/AddCourse";
 import MyCourses from "./pages/instructor/MyCourses";
 import Instructor from "./pages/instructor/Instructor";
 import EnrolledCourses from "./pages/student/EnrolledCourses";
+import OpenRoute from "./components/core/auth/OpenRoute";
 
 function App() {
   // @ts-ignore
@@ -31,29 +32,90 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/dashboard/my-profile" element={<MyProfile />} />
-        <Route path="/dashboard/Settings" element={<Settings />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="update-password/:id" element={<UpdatePassword />} />
-        <Route path="dashboard/create-category" element={<CreateCategory />} />
-        <Route path="dashboard/cart" element={<Cart />} />
 
-        <Route path="dashboard/all-students" element={<AllStudents />} />
-        <Route path="dashboard/all-instructors" element={<AllInstructors />} />
-
-        <Route path="dashboard/instructor" element={<Instructor />} />
-        <Route path="dashboard/add-course" element={<AddCourse />} />
-        <Route path="dashboard/my-course" element={<MyCourses />} />
-
-        <Route path="dashboard/cart" element={<Cart />} />
         <Route
-          path="dashboard/enrolled-courses"
-          element={<EnrolledCourses />}
+          path="signup"
+          element={
+            <OpenRoute>
+              <SignUp />
+            </OpenRoute>
+          }
         />
+
+        <Route
+          path="login"
+          element={
+            <OpenRoute>
+              <LoginPage />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="forgot-password"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="verify-email"
+          element={
+            <OpenRoute>
+              <VerifyEmail />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="update-password/:id"
+          element={
+            <OpenRoute>
+              <UpdatePassword />
+            </OpenRoute>
+          }
+        />
+        {user && (
+          <>
+            <Route path="/dashboard/my-profile" element={<MyProfile />} />
+            <Route path="/dashboard/Settings" element={<Settings />} />
+          </>
+        )}
+
+        {user?.accountType === "admin" && (
+          <>
+            <Route
+              path="dashboard/create-category"
+              element={<CreateCategory />}
+            />
+            <Route path="dashboard/all-students" element={<AllStudents />} />
+            <Route
+              path="dashboard/all-instructors"
+              element={<AllInstructors />}
+            />
+          </>
+        )}
+
+        {user?.accountType === "student" && (
+          <>
+            <Route path="dashboard/cart" element={<Cart />} />
+            <Route
+              path="dashboard/enrolled-courses"
+              element={<EnrolledCourses />}
+            />
+          </>
+        )}
+
+        {user?.accountType === "instructor" && (
+          <>
+            <Route path="dashboard/instructor" element={<Instructor />} />
+            <Route path="dashboard/add-course" element={<AddCourse />} />
+            <Route path="dashboard/my-course" element={<MyCourses />} />
+          </>
+        )}
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
