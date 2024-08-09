@@ -12,6 +12,7 @@ import { cloudinaryConnect } from "./config/cloudinary.js"; // Importing the fun
 import userRoutes from "./routes/user.js"; // Routes for user authentication and management
 import courseRoutes from "./routes/course.js"; // Routes for course-related operations
 import profileRoutes from "./routes/profile.js"; // Routes for user profile operations
+import paymentRoutes from "./routes/payments.js";
 
 // Load environment variables from the .env file
 config({
@@ -62,6 +63,7 @@ app.use(
 app.use("/api/v1/auth", userRoutes); // Routes for user authentication (e.g., login, registration)
 app.use("/api/v1/profile", profileRoutes); // Routes for managing user profiles (e.g., view and update profile)
 app.use("/api/v1/course", courseRoutes); // Routes for managing courses (e.g., create, update, delete courses)
+app.use("/api/v1/payment", paymentRoutes);
 
 // Default route to test server functionality
 app.get("/", (req, res) => {
