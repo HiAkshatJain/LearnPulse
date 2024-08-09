@@ -11,7 +11,7 @@ The platform is built using the **MERN stack**, which includes ReactJS, NodeJS, 
 
 ### Frontend 🎨 :
 
-<code title="React.js"><img height="40" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/react%20logo.png"></code>
+<code title="React.js"><img height="40" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/react%20ogo.png"></code>
 
 <code title="Vite"><img height="40" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/Vitejs-logo.png"></code>
 
@@ -25,11 +25,11 @@ The platform is built using the **MERN stack**, which includes ReactJS, NodeJS, 
 
 <code title="Node.js"><img height="50" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/nodejs-logo.png"></code>
 
-<code title="Express"><img height="70" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/express-logo.png"></code>
+<code title="Express"><img height="70" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/express%20logo.png"></code>
 
 ### Database 🛢️ :
 
-<code title="MongoDB"><img height="40" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/mongodb-logo.png"></code>
+<code title="MongoDB"><img height="40" src="https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/Tech%20stack%20logo/mongodb%20logo.png"></code>
 
 ### Cloudinary Integration ☁️
 
@@ -106,4 +106,4 @@ The back-end of LearnPulse is built with NodeJS and ExpressJS, providing APIs fo
 
 ### About Page
 
-<img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/about.png' />
+<img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/aboutus.png' />
