@@ -84,7 +84,12 @@ export default function MyCourses() {
               <p className="mb-6">{course.status}</p>
               <span>{course.whatYouWillLearn}</span>
             </div>
-            <Button onClick={deleteCourse(course._id, token)} color="primary">
+            <Button
+              onClick={() => {
+                deleteCourse(course._id, token);
+              }}
+              color="primary"
+            >
               Delete Course
             </Button>
           </CardBody>
