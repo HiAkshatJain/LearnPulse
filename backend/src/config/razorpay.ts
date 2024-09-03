@@ -6,6 +6,6 @@ config({
 });
 
 export const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY || "",
-  key_secret: process.env.RAZORPAY_SECRET || "",
+  key_id: process.env.RAZORPAY_KEY || "dummykey",
+  key_secret: process.env.RAZORPAY_SECRET || "dummysecret",
 });

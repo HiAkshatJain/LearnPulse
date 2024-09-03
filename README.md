@@ -107,3 +107,17 @@ The back-end of LearnPulse is built with NodeJS and ExpressJS, providing APIs fo
 ### About Page
 
 <img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/aboutus.png' />
+
+## Email Templates
+
+### OTP verification Template
+
+<img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/otpVerification.jpg' />
+
+### Password Reset Template
+
+<img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/passwordReset.jpg' />
+
+### Password Reset confirmation email
+
+<img width='100%' src='https://github.com/HiAkshatJain/LearnPulse/blob/main/screenshot/passconfirmation.jpg' />
